@@ -3,7 +3,5 @@
   "version": "1.0.0",
   "private": true,
   "description": "Falcon Prime Studios company website",
-  "scripts": {
-    "build": "node scripts/build.mjs"
-  }
+  "scripts": { "build": "node scripts/build.mjs" }
 }

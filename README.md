@@ -1,27 +1,36 @@
 # Falcon Prime Studios — Website
 
-The website is a responsive, dark premium studio site for Falcon Prime Studios.
+A responsive, single-page studio website for Falcon Prime Studios.
 
-## Included experience
+## Experience
 - Cinematic, skippable Project Falcon introduction with a lightweight particle field.
-- Reduced-motion support, responsive navigation and mobile menu.
+- Reduced-motion support, responsive navigation and a mobile menu.
 - About, Services, Products, Portfolio, Team and Contact sections.
-- Falcon artwork used in the introduction and home hero.
+- Falcon artwork used in the introduction and homepage hero.
 - The contact brief currently copies a formatted enquiry to the visitor's clipboard; it does not send or store submissions.
 
-## Repository layout
-- `site/index.html.gz` — gzip-compressed production HTML source. The editable, uncompressed HTML is included in `Falcon_Prime_Studios_Website_Source.zip`.
-- `public/falcon.webp` — falcon artwork served at `/falcon.webp`.
-- `scripts/build.mjs` — decompresses the HTML into Vercel's static output folder.
-- `Falcon_Prime_Studios_Website_Source.zip` — complete source bundle for local editing.
+## Project structure
+- `site/index.html.gz` — compressed HTML source used by the Vercel build.
+- `public/falcon.webp` — falcon artwork copied to the deployed site as `/falcon.webp`.
+- `scripts/build.mjs` — decompresses the HTML and assembles the static output in `dist/`.
+- `package.json` and `vercel.json` — build configuration.
 
-## Local development
-1. Extract `Falcon_Prime_Studios_Website_Source.zip`.
-2. Open `falcon-prime-studios/index.html` in a browser, or serve that folder with any static web server.
-3. Keep `falcon.webp` beside `index.html`.
+## Edit the website
+The deployed HTML is gzip-compressed to keep Git operations lightweight. To get an editable copy:
+
+```bash
+gzip -dc site/index.html.gz > index.html
+cp public/falcon.webp .
+```
+
+Edit `index.html` and preview it with a local static server. To publish the update through Git, replace the compressed source:
+
+```bash
+gzip -n -9 -c index.html > site/index.html.gz
+```
 
 ## Vercel
-The project uses a small Node build script and no runtime framework. Vercel runs `npm run build`, which writes the site to `dist/`.
+Vercel runs `npm run build`, which writes the static website to `dist/`. No frontend framework or runtime dependency is required.
 
 ## Before calling the site complete
 - Replace illustrative product visuals with approved screenshots and verified live product URLs.
