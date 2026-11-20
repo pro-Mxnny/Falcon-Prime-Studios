@@ -3,17 +3,18 @@
 A responsive, single-page studio website for Falcon Prime Studios.
 
 ## Experience
-- Cinematic, skippable Project Falcon introduction.
-- The falcon is rendered as a live particle silhouette, flies through the scene, approaches the viewer, and resolves into the Falcon Prime symbol and wordmark.
-- Reduced-motion support, responsive navigation and a mobile menu.
-- About, Services, Products, Portfolio, Team and Contact sections.
-- Falcon artwork used by the particle introduction and homepage hero.
+- Prime Ignition opening: a traced platinum emblem, metallic light sweep, wordmark reveal and split-panel transition.
+- Obsidian and Platinum visual identity with ivory editorial sections and restrained cobalt accents.
+- Scroll-linked progress indicator, staggered section reveals, hero image parallax, pointer-responsive cards and animated capability label.
+- Animated service panels, product showcases, process steps, founder cards and contact section.
+- Responsive navigation and mobile layouts.
+- Reduced-motion support and a skippable, once-per-session introduction.
 - The contact brief currently copies a formatted enquiry to the visitor's clipboard; it does not send or store submissions.
 
 ## Project structure
-- `index.html` — editable website source.
-- `site/index.html.gz` — compressed fallback copy retained for recovery.
-- `public/falcon.webp` — falcon artwork used by the site.
+- `index.html` — editable website source, styling, animation logic and page content.
+- `public/falcon.webp` — falcon artwork used in the homepage hero and studio visuals.
+- `site/index.html.gz` — retained compressed fallback copy.
 - `scripts/build.mjs` — assembles the static output in `dist/`, preferring the editable HTML source.
 - `package.json` and `vercel.json` — build configuration.
 
