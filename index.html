@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23168bff' d='M6 43 26 10l6 17 26-9-17 19 7 17-21-12-16 8 8-17z'/%3E%3C/svg%3E">
+  <link rel="icon" href="/falcon-mark.svg" type="image/svg+xml">
   <link rel="preload" as="image" href="/falcon.webp" fetchpriority="high">
   <style>
     :root{--bg:#070c14;--bg2:#0a1321;--panel:#0d1929;--panel2:#101f33;--line:rgba(185,196,213,.15);--blue:#168bff;--blue2:#48b5ff;--silver:#b9c4d5;--white:#f3f7fc;--muted:#94a3b8;--mono:'DM Mono',monospace;--sans:'Manrope',Arial,sans-serif;--max:1220px}
@@ -333,14 +333,113 @@
       .cursor-glow{display:none}
     }
 
+  
+    /* Prime Ignition v2 — a longer, dark-room reveal built around the new falcon crest. */
+    .intro.ignition{background:#010204;color:#f2f0e9;z-index:1000;overflow:hidden;isolation:isolate}
+    .intro.ignition:before{display:block;content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 42% 30% at 50% 47%,rgba(34,43,59,.16),transparent 72%),radial-gradient(ellipse 100% 100% at 50% 50%,transparent 36%,rgba(0,0,0,.88) 100%),#010204;opacity:1}
+    .intro.ignition:after{display:block;content:"";position:absolute;inset:0;z-index:6;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.28),transparent 18%,transparent 82%,rgba(0,0,0,.34)),linear-gradient(0deg,rgba(0,0,0,.55),transparent 25%,transparent 76%,rgba(0,0,0,.5))}
+    .ignition-panel{z-index:1;background:transparent;border:0!important;box-shadow:none!important;pointer-events:none}
+    .ignition-panel:after{opacity:.055;background-image:linear-gradient(rgba(213,220,229,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(213,220,229,.12) 1px,transparent 1px);background-size:96px 96px}
+    .ignition-haze{z-index:2;inset:-10%;opacity:0;transform:scale(.72);background:radial-gradient(ellipse 26% 20% at 50% 44%,rgba(190,205,226,.16),transparent 75%),radial-gradient(ellipse 55% 38% at 50% 48%,rgba(49,95,234,.08),transparent 78%);filter:blur(18px);transition:opacity 2s ease,transform 4s cubic-bezier(.2,.7,.2,1)}
+    .intro.is-ready .ignition-haze{opacity:1;transform:scale(1.18)}
+    .ignition-spotlight{position:absolute;z-index:2;inset:-20%;pointer-events:none;opacity:0;background:radial-gradient(ellipse 15% 8% at 50% 34%,rgba(244,247,252,.19),transparent 100%),radial-gradient(ellipse 35% 26% at 50% 43%,rgba(161,178,205,.1),transparent 100%);filter:blur(24px)}
+    .intro.is-ready .ignition-spotlight{animation:ignitionSpotlight 3.2s .25s ease-out forwards}
+    .ignition-cone{position:absolute;z-index:3;top:-36%;left:50%;width:min(64vw,850px);height:145%;transform:translateX(-50%) scaleY(.7);transform-origin:top center;opacity:0;pointer-events:none;clip-path:polygon(43% 0,57% 0,94% 100%,6% 100%);background:linear-gradient(180deg,rgba(241,245,250,.19) 0%,rgba(179,194,215,.08) 31%,rgba(49,95,234,.035) 68%,transparent 100%);filter:blur(18px)}
+    .intro.is-ready .ignition-cone{animation:ignitionCone 4.8s .55s cubic-bezier(.2,.7,.2,1) forwards}
+    .ignition-sweep{position:absolute;z-index:4;top:47%;left:-35%;width:70%;height:1px;opacity:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(226,234,246,.18),rgba(255,255,255,.95),rgba(174,194,225,.28),transparent);box-shadow:0 0 22px rgba(188,204,228,.38),0 0 70px rgba(49,95,234,.18);transform:rotate(-8deg) scaleX(.25);transform-origin:left center}
+    .intro.is-ready .ignition-sweep{animation:ignitionSweep 2.5s 2.8s cubic-bezier(.55,0,.25,1) forwards}
+    .ignition-floor{position:absolute;z-index:3;left:50%;bottom:15%;width:min(64vw,700px);height:1px;opacity:0;transform:translateX(-50%) scaleX(.1);background:linear-gradient(90deg,transparent,rgba(190,198,208,.3),rgba(49,95,234,.3),transparent);box-shadow:0 0 34px rgba(190,198,208,.12)}
+    .intro.is-ready .ignition-floor{animation:ignitionFloor 2.5s 3.9s ease forwards}
+    .ignition-grain{position:absolute;z-index:7;inset:0;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");background-size:180px 180px;mix-blend-mode:soft-light}
+    .ignition-topline,.ignition-footer{z-index:8;color:rgba(183,194,209,.52)}
+    .ignition-topline{top:36px}
+    .ignition-footer{bottom:30px;color:rgba(143,155,173,.42)}
+    .ignition-topline .skip{border-color:rgba(190,198,208,.2);background:rgba(5,7,10,.58);color:#aeb8c5}
+    .ignition-topline .skip:hover{border-color:#b8c1cd;color:#f2f0e9}
+    .ignition-core{z-index:5;top:47%;width:min(620px,90vw);transition:opacity .75s ease,transform .95s cubic-bezier(.2,.7,.2,1)}
+    .ignition-emblem-wrap{width:168px;height:168px;margin-bottom:28px;filter:drop-shadow(0 16px 38px rgba(0,0,0,.65))}
+    .ignition-emblem{width:132px;height:132px;overflow:visible}
+    .ignition-mark-fill{fill:url(#ignitionMetal);opacity:0;filter:drop-shadow(0 0 8px rgba(207,218,233,.2))}
+    .ignition-mark-outline{fill:none;stroke:url(#ignitionMetal);stroke-width:1.45;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.95}
+    .ignition-mark-head{fill:url(#ignitionMetal);opacity:0}
+    .ignition-mark-feathers{fill:none;stroke:#d4dbe5;stroke-width:.72;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0}
+    .ignition-mark-eye{fill:none;stroke:#566477;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+    .ignition-mark-glint{fill:none;stroke:#fff;stroke-width:1.1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;filter:drop-shadow(0 0 5px #fff)}
+    .intro.is-ready .ignition-mark-outline{animation:ignitionTraceNew 2.05s 1.7s cubic-bezier(.2,.7,.2,1) forwards}
+    .intro.is-ready .ignition-mark-feathers{animation:ignitionFeathers 1.7s 2.8s cubic-bezier(.2,.7,.2,1) forwards}
+    .intro.is-ready .ignition-mark-head{animation:ignitionHead 1.3s 3.55s ease forwards}
+    .intro.is-ready .ignition-mark-fill{animation:ignitionFill 1.55s 3.85s ease forwards}
+    .intro.is-ready .ignition-mark-eye{animation:ignitionEye .8s 4.35s ease forwards}
+    .intro.is-ready .ignition-mark-glint{animation:ignitionGlint 1.6s 4.35s ease-in-out forwards}
+    .ignition-orbit{border-color:rgba(190,198,208,.09);transform:scale(.88);opacity:0}
+    .ignition-orbit-a{inset:8px}
+    .ignition-orbit-b{inset:-16px;border-color:rgba(49,95,234,.15)}
+    .intro.is-ready .ignition-orbit-a{animation:ignitionOrbitNew 2.2s 2.1s ease forwards}
+    .intro.is-ready .ignition-orbit-b{animation:ignitionOrbitNew 2.8s 2.7s ease forwards}
+    .ignition-flash{top:2%;bottom:2%;left:-65%;width:29%;opacity:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),rgba(190,210,240,.28),transparent);filter:blur(7px);transform:skewX(-20deg)}
+    .intro.is-ready .ignition-flash{animation:ignitionFlashNew 2.1s 4.25s ease-in-out forwards}
+    .ignition-name{color:#f0f1f2;font-size:clamp(26px,4.4vw,40px);letter-spacing:.2em;text-indent:.2em;text-shadow:0 6px 34px rgba(0,0,0,.8);opacity:0;transform:translateY(18px);filter:blur(8px)}
+    .ignition-name span{color:#aeb8c5}
+    .intro.is-ready .ignition-name{animation:ignitionNameNew 1.15s 5.1s cubic-bezier(.2,.7,.2,1) forwards}
+    .ignition-studios{margin-top:14px;color:#aeb8c5;letter-spacing:.62em;text-indent:.62em;opacity:0;transform:translateY(12px);filter:blur(5px)}
+    .intro.is-ready .ignition-studios{animation:ignitionNameNew 1s 5.55s ease forwards}
+    .ignition-rule{width:220px;margin-top:29px;background:rgba(190,198,208,.11)}
+    .ignition-rule span{background:linear-gradient(90deg,transparent,#dce3ec,#315fea,#dce3ec,transparent);transform:scaleX(0)}
+    .intro.is-ready .ignition-rule span{animation:ignitionRuleNew 1.3s 5.95s ease forwards}
+    .ignition-tagline{margin-top:19px;color:#818d9e;font-size:8px;letter-spacing:.25em;opacity:0;transform:translateY(8px);filter:blur(4px)}
+    .intro.is-ready .ignition-tagline{animation:ignitionNameNew .85s 6.25s ease forwards}
+    .intro.is-releasing .ignition-panel-left{transform:translateX(-101%)}
+    .intro.is-releasing .ignition-panel-right{transform:translateX(101%)}
+    .ignition-panel-left,.ignition-panel-right{transition:transform 1.65s cubic-bezier(.76,0,.24,1)}
+    .intro.is-releasing .ignition-core{opacity:0;transform:translate(-50%,-55%) scale(.94);filter:blur(5px)}
+    .intro.is-releasing .ignition-topline,.intro.is-releasing .ignition-footer{opacity:0;transition:opacity .5s ease}
+    .intro.is-releasing .ignition-haze,.intro.is-releasing .ignition-spotlight,.intro.is-releasing .ignition-cone,.intro.is-releasing .ignition-floor{opacity:0;transition:opacity .8s ease}
+    @keyframes ignitionSpotlight{0%{opacity:0;transform:scale(.72)}55%{opacity:.9}100%{opacity:.72;transform:scale(1.18)}}
+    @keyframes ignitionCone{0%{opacity:0;transform:translateX(-50%) scaleY(.68)}35%{opacity:.78}100%{opacity:.36;transform:translateX(-50%) scaleY(1)}}
+    @keyframes ignitionSweep{0%{left:-35%;opacity:0;transform:rotate(-8deg) scaleX(.25)}16%{opacity:1}76%{opacity:.9}100%{left:115%;opacity:0;transform:rotate(-8deg) scaleX(1)}}
+    @keyframes ignitionFloor{0%{opacity:0;transform:translateX(-50%) scaleX(.1)}55%{opacity:.65}100%{opacity:.3;transform:translateX(-50%) scaleX(1)}}
+    @keyframes ignitionTraceNew{to{stroke-dashoffset:0;filter:drop-shadow(0 0 9px rgba(223,233,247,.45))}}
+    @keyframes ignitionFeathers{to{stroke-dashoffset:0;opacity:.9}}
+    @keyframes ignitionHead{to{opacity:1;filter:drop-shadow(0 0 8px rgba(224,232,241,.3))}}
+    @keyframes ignitionFill{to{opacity:1;filter:drop-shadow(0 0 18px rgba(190,206,231,.28))}}
+    @keyframes ignitionEye{to{opacity:.9}}
+    @keyframes ignitionGlint{0%{stroke-dashoffset:1;opacity:0}20%{opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+    @keyframes ignitionOrbitNew{to{transform:scale(1);opacity:1}}
+    @keyframes ignitionFlashNew{0%{left:-65%;opacity:0}20%{opacity:.95}100%{left:130%;opacity:0}}
+    @keyframes ignitionNameNew{to{opacity:1;transform:translateY(0);filter:blur(0)}}
+    @keyframes ignitionRuleNew{to{transform:scaleX(1)}}
+    .brand-icon{filter:drop-shadow(0 0 12px rgba(190,198,208,.32))}
+    .about-orbit{width:174px;max-width:54%;filter:drop-shadow(0 0 30px rgba(161,180,211,.34))}
+    .about-visual:before,.about-visual:after{border-color:rgba(190,198,208,.19)}
+    @media(max-width:720px){
+      .ignition-topline{top:22px}
+      .ignition-footer{bottom:20px}
+      .ignition-emblem-wrap{width:142px;height:142px;margin-bottom:24px}
+      .ignition-emblem{width:112px;height:112px}
+      .ignition-name{font-size:clamp(23px,6vw,31px);letter-spacing:.14em;text-indent:.14em}
+      .ignition-studios{font-size:8px;letter-spacing:.48em;text-indent:.48em}
+      .ignition-tagline{font-size:7px;letter-spacing:.15em}
+      .ignition-cone{width:100vw}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .intro.ignition{display:none!important}
+      .ignition-panel,.ignition-haze,.ignition-spotlight,.ignition-cone,.ignition-sweep,.ignition-floor,.ignition-grain{animation:none!important}
+      .brand-icon,.about-orbit{animation:none!important}
+    }
+
   </style>
 </head>
 <body class="intro-lock">
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-  <div class="intro ignition" id="intro" aria-label="Falcon Prime Studios opening">
+  <div class="intro ignition" id="intro" aria-label="Falcon Prime Studios cinematic opening">
     <div class="ignition-panel ignition-panel-left" aria-hidden="true"></div>
     <div class="ignition-panel ignition-panel-right" aria-hidden="true"></div>
     <div class="ignition-haze" aria-hidden="true"></div>
+    <div class="ignition-spotlight" aria-hidden="true"></div>
+    <div class="ignition-cone" aria-hidden="true"></div>
+    <div class="ignition-sweep" aria-hidden="true"></div>
+    <div class="ignition-floor" aria-hidden="true"></div>
+    <div class="ignition-grain" aria-hidden="true"></div>
     <div class="ignition-topline">
       <span>FALCON PRIME <i>/</i> STUDIOS</span>
       <button class="skip" id="skipIntro" type="button">Skip intro <b>↗</b></button>
@@ -349,17 +448,22 @@
       <div class="ignition-emblem-wrap">
         <span class="ignition-orbit ignition-orbit-a" aria-hidden="true"></span>
         <span class="ignition-orbit ignition-orbit-b" aria-hidden="true"></span>
-        <svg class="ignition-emblem" viewBox="0 0 64 64" role="img" aria-label="Falcon Prime emblem">
+        <svg class="ignition-emblem" viewBox="0 0 64 64" role="img" aria-label="Falcon Prime geometric falcon emblem">
           <defs>
             <linearGradient id="ignitionMetal" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#f8fafc"/>
-              <stop offset=".38" stop-color="#9ea9b7"/>
-              <stop offset=".62" stop-color="#eef1f4"/>
-              <stop offset="1" stop-color="#657181"/>
+              <stop offset="0" stop-color="#fffdf7"/>
+              <stop offset=".26" stop-color="#aeb8c5"/>
+              <stop offset=".48" stop-color="#f4f1e9"/>
+              <stop offset=".72" stop-color="#8b98a8"/>
+              <stop offset="1" stop-color="#e5e8ed"/>
             </linearGradient>
           </defs>
-          <path class="ignition-mark-outline" d="M5 45 25 8l8 18 26-9-17 20 6 18-21-13-17 8 8-18z"/>
-          <path class="ignition-mark-detail" d="m25 8 8 18-18 9M33 26l26-9-17 20"/>
+          <path class="ignition-mark-fill" d="M5 19 C16 20 26 28 32 41 C38 28 48 20 59 19 C56 35 47 49 32 59 C17 49 8 35 5 19 Z"/>
+          <path class="ignition-mark-outline" pathLength="1" d="M5 19 C16 20 26 28 32 41 C38 28 48 20 59 19 C56 35 47 49 32 59 C17 49 8 35 5 19 Z"/>
+          <path class="ignition-mark-feathers" pathLength="1" d="M10 27 C18 29 24 35 29 45 M54 27 C46 29 40 35 35 45 M17 40 C22 43 26 47 30 52 M47 40 C42 43 38 47 34 52"/>
+          <path class="ignition-mark-head" pathLength="1" d="M26 18 L32 5 L38 18 L35 31 L32 37 L29 31 Z"/>
+          <path class="ignition-mark-eye" d="M29 23 L32 26 L35 23"/>
+          <path class="ignition-mark-glint" d="M5 19 C16 20 26 28 32 41 C38 28 48 20 59 19" pathLength="1"/>
         </svg>
         <span class="ignition-flash" aria-hidden="true"></span>
       </div>
@@ -375,7 +479,12 @@
   <header class="header" id="header">
     <div class="wrap nav">
       <a class="brand" href="#home" aria-label="Falcon Prime Studios home">
-        <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="markGrad" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f2f0e9"/><stop offset=".48" stop-color="#315fea"/><stop offset="1" stop-color="#b8c1cd"/></linearGradient></defs><path d="M5 45 25 8l8 18 26-9-17 20 6 18-21-13-17 8 8-18z" fill="none" stroke="url(#markGrad)" stroke-width="3.1" stroke-linejoin="round"/><path d="m25 8 8 18-18 9M33 26l26-9-17 20" fill="none" stroke="#b8c1cd" stroke-width="1.5" opacity=".9"/></svg>
+        <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true">
+          <defs><linearGradient id="headerMarkMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2f0e9"/><stop offset=".46" stop-color="#9faab8"/><stop offset=".72" stop-color="#e0e4e9"/><stop offset="1" stop-color="#5d6b7d"/></linearGradient></defs>
+          <path d="M5 19 C16 20 26 28 32 41 C38 28 48 20 59 19 C56 35 47 49 32 59 C17 49 8 35 5 19 Z" fill="url(#headerMarkMetal)"/>
+          <path d="M10 27 C18 29 24 35 29 45 M54 27 C46 29 40 35 35 45 M17 40 C22 43 26 47 30 52 M47 40 C42 43 38 47 34 52 M26 18 32 5 38 18 35 31 32 37 29 31Z" fill="none" stroke="#18212c" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M29 23 32 26 35 23" fill="none" stroke="#18212c" stroke-width="1.35" stroke-linecap="round"/>
+        </svg>
         <span class="brand-text">FALCON PRIME<span>STUDIOS</span></span>
       </a>
       <nav class="nav-links" id="navLinks" aria-label="Main navigation">
@@ -413,7 +522,12 @@
           <div class="about-values"><div class="value"><strong>Our mission</strong><span>Engineer accessible, dependable digital experiences that solve meaningful problems.</span></div><div class="value"><strong>Our vision</strong><span>Become a trusted technology partner for products and ideas that shape what’s next.</span></div></div>
         </div>
         <div class="about-visual reveal" aria-label="Falcon Prime geometric emblem illustration">
-          <svg class="about-orbit" viewBox="0 0 360 300" fill="none" aria-hidden="true"><defs><linearGradient id="wing" x1="22" y1="34" x2="316" y2="268"><stop stop-color="#e6eaf0"/><stop offset=".42" stop-color="#168bff"/><stop offset="1" stop-color="#071323"/></linearGradient></defs><path d="M22 190C83 74 180 33 329 56 253 87 198 121 153 165c75-20 139-8 185 34-75-16-134-7-184 37 57 0 102 19 142 54-82-25-165-15-250 31 36-48 56-92-24-131Z" fill="url(#wing)" fill-opacity=".14" stroke="url(#wing)" stroke-width="3"/><path d="M167 157c40-37 101-50 145-30-27 8-47 21-66 39l58 16c-31 22-65 27-94 19-19 27-42 44-70 51l20-44c-14-12-20-29-23-51Z" fill="#102b49" stroke="#58baff" stroke-width="2.2"/><path d="m246 167 70 15-57 13M185 148 115 75M206 170 105 130M215 194 130 193" stroke="#168bff" stroke-width="2" stroke-linecap="round" opacity=".85"/></svg>
+          <svg class="about-orbit" viewBox="0 0 64 64" aria-hidden="true">
+          <defs><linearGradient id="aboutMarkMetal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2f0e9"/><stop offset=".48" stop-color="#9faab8"/><stop offset="1" stop-color="#315fea"/></linearGradient></defs>
+          <path d="M5 19 C16 20 26 28 32 41 C38 28 48 20 59 19 C56 35 47 49 32 59 C17 49 8 35 5 19 Z" fill="url(#aboutMarkMetal)"/>
+          <path d="M10 27 C18 29 24 35 29 45 M54 27 C46 29 40 35 35 45 M17 40 C22 43 26 47 30 52 M47 40 C42 43 38 47 34 52 M26 18 32 5 38 18 35 31 32 37 29 31Z" fill="none" stroke="#111922" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M29 23 32 26 35 23" fill="none" stroke="#111922" stroke-width="1.35" stroke-linecap="round"/>
+        </svg>
           <div class="about-visual-label"><span>Falcon Prime / Identity</span><span>Est. 2026</span></div>
         </div>
       </div>
@@ -483,7 +597,11 @@
     </section>
   </main>
 
-  <footer class="footer"><div class="wrap"><div class="footer-top"><a class="brand" href="#home"><svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M5 45 25 8l8 18 26-9-17 20 6 18-21-13-17 8 8-18z" fill="none" stroke="#168bff" stroke-width="3.1" stroke-linejoin="round"/></svg><span class="brand-text">FALCON PRIME<span>STUDIOS</span></span></a><div class="footer-links"><a href="#about">About</a><a href="#services">Services</a><a href="#products">Products</a><a href="#portfolio">Portfolio</a><a href="#contact">Contact</a><button id="replayIntro" class="product-link" style="background:none;border:0;padding:0">Replay intro ↗</button></div></div><div class="footer-bottom"><span>© <span id="year"></span> FALCON PRIME STUDIOS. ALL RIGHTS RESERVED.</span><span class="footer-tag">ENGINEERING DIGITAL EXPERIENCES.</span></div></div></footer>
+  <footer class="footer"><div class="wrap"><div class="footer-top"><a class="brand" href="#home"><svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M5 19 C16 20 26 28 32 41 C38 28 48 20 59 19 C56 35 47 49 32 59 C17 49 8 35 5 19 Z" fill="#b8c1cd"/>
+          <path d="M10 27 C18 29 24 35 29 45 M54 27 C46 29 40 35 35 45 M17 40 C22 43 26 47 30 52 M47 40 C42 43 38 47 34 52 M26 18 32 5 38 18 35 31 32 37 29 31Z" fill="none" stroke="#101820" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M29 23 32 26 35 23" fill="none" stroke="#101820" stroke-width="1.35" stroke-linecap="round"/>
+        </svg><span class="brand-text">FALCON PRIME<span>STUDIOS</span></span></a><div class="footer-links"><a href="#about">About</a><a href="#services">Services</a><a href="#products">Products</a><a href="#portfolio">Portfolio</a><a href="#contact">Contact</a><button id="replayIntro" class="product-link" style="background:none;border:0;padding:0">Replay intro ↗</button></div></div><div class="footer-bottom"><span>© <span id="year"></span> FALCON PRIME STUDIOS. ALL RIGHTS RESERVED.</span><span class="footer-tag">ENGINEERING DIGITAL EXPERIENCES.</span></div></div></footer>
 
   <script>
     (function(){
@@ -491,7 +609,7 @@
       const skip=document.getElementById('skipIntro');
       const replay=document.getElementById('replayIntro');
       const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const introKey='fp-prime-ignition-v1';
+      const introKey='fp-prime-ignition-v2';
       const seen=sessionStorage.getItem(introKey)==='1';
       let releaseTimer=0,closeTimer=0,scrollFrame=0;
       let released=false;
@@ -509,7 +627,7 @@
         if(released||!intro||intro.classList.contains('is-hidden'))return;
         released=true;
         intro.classList.add('is-releasing');
-        closeTimer=window.setTimeout(closeIntro,1320);
+        closeTimer=window.setTimeout(closeIntro,1720);
       }
 
       if(seen||reduced){
@@ -518,8 +636,8 @@
         document.body.classList.add('site-entered');
       }else{
         requestAnimationFrame(()=>intro.classList.add('is-ready'));
-        releaseTimer=window.setTimeout(releaseIntro,2850);
-        closeTimer=window.setTimeout(closeIntro,5600);
+        releaseTimer=window.setTimeout(releaseIntro,8150);
+        closeTimer=window.setTimeout(closeIntro,10100);
       }
       skip.addEventListener('click',releaseIntro);
       replay.addEventListener('click',()=>{
