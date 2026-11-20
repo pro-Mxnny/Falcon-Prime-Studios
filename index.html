@@ -236,9 +236,9 @@
         const m=mask.getContext('2d');
         const mark=new Path2D('M5 45 25 8 33 26 59 17 42 37 48 55 27 42 10 50 18 32z');
         m.save();m.translate(27,25);m.scale(2.85,2.85);
-        m.fillStyle='#fff';m.fill(mark);
-        m.lineWidth=1.15;m.strokeStyle='#fff';m.stroke(mark);
-        m.beginPath();m.moveTo(25,8);m.lineTo(33,26);m.lineTo(15,35);
+        m.lineJoin='round';m.lineCap='round';
+        m.lineWidth=3.1;m.strokeStyle='#fff';m.stroke(mark);
+        m.lineWidth=1.5;m.beginPath();m.moveTo(25,8);m.lineTo(33,26);m.lineTo(15,35);
         m.moveTo(33,26);m.lineTo(59,17);m.lineTo(42,37);
         m.stroke();m.restore();
         const data=m.getImageData(0,0,mask.width,mask.height).data;
