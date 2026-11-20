@@ -3,27 +3,22 @@
 A responsive, single-page studio website for Falcon Prime Studios.
 
 ## Experience
-- Cinematic, skippable Project Falcon introduction with a lightweight particle field.
+- Cinematic, skippable Project Falcon introduction.
+- The falcon is rendered as a live particle silhouette, flies through the scene, approaches the viewer, and resolves into the Falcon Prime symbol and wordmark.
 - Reduced-motion support, responsive navigation and a mobile menu.
 - About, Services, Products, Portfolio, Team and Contact sections.
-- Falcon artwork used in the introduction and homepage hero.
+- Falcon artwork used by the particle introduction and homepage hero.
 - The contact brief currently copies a formatted enquiry to the visitor's clipboard; it does not send or store submissions.
 
 ## Project structure
-- `site/index.html.gz` — compressed HTML source used by the Vercel build.
-- `public/falcon.webp` — falcon artwork copied to the deployed site as `/falcon.webp`.
-- `scripts/build.mjs` — decompresses the HTML and assembles the static output in `dist/`.
+- `index.html` — editable website source.
+- `site/index.html.gz` — compressed fallback copy retained for recovery.
+- `public/falcon.webp` — falcon artwork used by the site.
+- `scripts/build.mjs` — assembles the static output in `dist/`, preferring the editable HTML source.
 - `package.json` and `vercel.json` — build configuration.
 
 ## Edit the website
-The deployed HTML is gzip-compressed to keep Git operations lightweight. To get an editable copy:
-
-```bash
-gzip -dc site/index.html.gz > index.html
-cp public/falcon.webp .
-```
-
-Edit `index.html` and preview it with a local static server. To publish the update through Git, replace the compressed source:
+Edit `index.html` directly and preview it with a local static server. The build script automatically uses this file. The compressed fallback can be refreshed when needed:
 
 ```bash
 gzip -n -9 -c index.html > site/index.html.gz
