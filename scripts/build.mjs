@@ -15,5 +15,6 @@ const html = existsSync(editableSource)
 
 writeFileSync(join(output, "index.html"), html);
 copyFileSync(join(root, "public", "falcon.webp"), join(output, "falcon.webp"));
+copyFileSync(join(root, "public", "falcon-mark.svg"), join(output, "falcon-mark.svg"));
 
 console.log("Falcon Prime Studios site prepared in dist/.");
