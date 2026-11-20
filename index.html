@@ -276,6 +276,12 @@
     .service-card{transition:transform .32s ease,border-color .3s,box-shadow .35s,background .3s}
     .product-card{transition:transform .38s cubic-bezier(.2,.7,.2,1),border-color .35s,box-shadow .35s}
     .work-item{transition:transform .32s ease,border-color .3s,background .3s}
+    .service-card.is-pointed{transform:perspective(1000px) rotateX(var(--fp-tilt-x,0deg)) rotateY(var(--fp-tilt-y,0deg)) translateY(-5px)}
+    .product-card.is-pointed{transform:perspective(1100px) rotateX(var(--fp-tilt-x,0deg)) rotateY(var(--fp-tilt-y,0deg)) translateY(-6px)}
+    .work-item.is-pointed{transform:perspective(1000px) rotateX(var(--fp-tilt-x,0deg)) rotateY(var(--fp-tilt-y,0deg)) translateX(3px)}
+    #heroRotator{display:inline-block;transition:opacity .22s ease,transform .22s ease}
+    #heroRotator.is-changing{opacity:0;transform:translateY(5px)}
+
     .about-orbit{animation:fp-emblem-float 8s ease-in-out infinite}
     @keyframes fp-emblem-float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
     .about-visual:before{animation:fp-orbit 23s linear infinite}
@@ -509,6 +515,7 @@
       if(seen||reduced){
         intro.classList.add('is-hidden');
         document.body.classList.remove('intro-lock');
+        document.body.classList.add('site-entered');
       }else{
         requestAnimationFrame(()=>intro.classList.add('is-ready'));
         releaseTimer=window.setTimeout(releaseIntro,2850);
