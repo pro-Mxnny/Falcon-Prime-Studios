@@ -207,8 +207,8 @@
       const seen=sessionStorage.getItem('fp-particle-intro-seen')==='1';
       const canvas=document.getElementById('introParticles');
       const ctx=canvas.getContext('2d',{alpha:true});
-      const DURATION=9000;
-      let timer=0,raf=0,w=0,h=0,dpr=1,started=0,particles=[],ambient=[];
+      const DURATION=9700;
+      let timer=0,raf=0,w=0,h=0,dpr=1,started=0,particles=[],ambient=[],falconImage=null;
       const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
       const mix=(a,b,t)=>a+(b-a)*t;
       const ease=t=>{t=clamp(t);return t*t*(3-2*t);};
@@ -250,6 +250,8 @@
         }
       }
 
+      let falconAspect=.667;
+
       function buildFalconParticles(image){
         const sample=document.createElement('canvas');
         const sw=500,sh=Math.round(sw*image.naturalHeight/image.naturalWidth);
@@ -258,35 +260,120 @@
         s.drawImage(image,0,0,sw,sh);
         const data=s.getImageData(0,0,sw,sh).data;
         const raw=[];
-        for(let y=0;y<sh;y+=2){
-          for(let x=0;x<sw;x+=2){
+        falconAspect=image.naturalHeight/image.naturalWidth;
+        for(let y=0;y<sh;y+=3){
+          for(let x=0;x<sw;x+=3){
             const k=(y*sw+x)*4,r=data[k],g=data[k+1],b=data[k+2],a=data[k+3];
             const peak=Math.max(r,g,b);
-            const blueDetail=b>r*1.14&&b>g*.96&&b>22;
-            const brightFeather=peak>72&&b>38;
-            if(a>40&&peak>19&&(blueDetail||brightFeather)){
-              raw.push({x:(x-sw/2)/sw,y:(y-sh/2)/sw,r,g,b,a:clamp(peak/210,.18,.92),radius:.58+Math.random()*.72,scatterX:(Math.random()-.5)*w*.86,scatterY:(Math.random()-.5)*h*.76});
+            if(a>40&&peak>46&&b>r*1.06&&b>g*.78){
+              raw.push({
+                x:(x-sw/2)/sw,
+                y:(y-sh/2)/sw,
+                r,g,b,
+                a:clamp(peak/205,.24,.94),
+                seed:Math.random()
+              });
             }
           }
         }
-        const limit=w<700?1900:3900;
+        const limit=w<700?900:1700;
         const stride=Math.max(1,Math.ceil(raw.length/limit));
         particles=raw.filter((_,i)=>i%stride===0);
         buildLogoTargets();
       }
 
       function birdPose(t){
-        const base=Math.min(w*.59,820);
-        if(t<.72){
-          const q=ease(t/.72);
-          return {x:mix(-w*.08,w*.18,q),y:mix(h*.62,h*.56,q),size:base*.76,angle:-.08,horizontal:1,opacity:q,formation:q};
+        const base=Math.min(w<700?w*1.16:w*.84,1100);
+        if(t<1.15){
+          const q=ease(t/1.15);
+          return {
+            x:mix(-base*.46,w*.17,q),
+            y:mix(h*.69,h*.47,q),
+            width:base*.78,
+            angle:mix(-.16,-.035,q),
+            horizontal:1,
+            opacity:q
+          };
         }
-        if(t<3.55){
-          const q=clamp((t-.72)/(3.55-.72));
-          return {x:w*(.18+.60*q),y:h*(.56-.22*Math.sin(q*Math.PI)+.055*q),size:base*(.76+.13*q),angle:-.075+.12*Math.sin(q*Math.PI*2),horizontal:1,opacity:1,formation:1};
+        if(t<4.2){
+          const q=clamp((t-1.15)/3.05);
+          return {
+            x:mix(w*.17,w*.79,q),
+            y:h*(.47-.17*Math.sin(q*Math.PI)+.075*q),
+            width:base*(.78+.17*q),
+            angle:-.035+.075*Math.sin(q*Math.PI*2),
+            horizontal:1,
+            opacity:1
+          };
         }
-        const q=ease((t-3.55)/1.1);
-        return {x:mix(w*.78,w*.52,q),y:mix(h*.49,h*.5,q),size:base*(.89+2.15*q),angle:mix(.02,0,q),horizontal:mix(1,.19,q),opacity:1,formation:1};
+        const q=ease((t-4.2)/1.25);
+        return {
+          x:mix(w*.79,w*.51,q),
+          y:mix(h*.43,h*.51,q),
+          width:mix(base*.95,base*2.25,q),
+          angle:mix(.035,0,q),
+          horizontal:mix(1,.43,q),
+          opacity:1
+        };
+      }
+
+      function drawFlightWake(pose,t,fade){
+        if(fade<=.01)return;
+        ctx.save();
+        ctx.globalCompositeOperation='lighter';
+        const speed=.5+.5*Math.min(1,Math.abs(Math.sin(t*1.8)));
+        for(let i=0;i<25;i++){
+          const u=i/24-.5;
+          const wave=Math.sin(t*3.1+i*.43);
+          const sx=pose.x-pose.width*.37;
+          const sy=pose.y+u*pose.width*falconAspect*.72;
+          const reach=pose.width*(.18+.22*speed+Math.abs(u)*.12);
+          const ex=sx-reach;
+          const ey=sy+wave*pose.width*.035+u*pose.width*.08;
+          const grad=ctx.createLinearGradient(sx,sy,ex,ey);
+          grad.addColorStop(0,'rgba(104,196,255,'+(.24*fade)+')');
+          grad.addColorStop(.35,'rgba(39,135,255,'+(.13*fade)+')');
+          grad.addColorStop(1,'rgba(22,104,220,0)');
+          ctx.beginPath();
+          ctx.moveTo(sx,sy);
+          ctx.bezierCurveTo(sx-reach*.24,sy-wave*pose.width*.035,sx-reach*.68,ey+wave*pose.width*.025,ex,ey);
+          ctx.strokeStyle=grad;
+          ctx.lineWidth=.65+(1-Math.abs(u)*2)*1.1;
+          ctx.shadowBlur=9;
+          ctx.shadowColor='rgba(42,146,255,.3)';
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawFalcon(image,pose,t,alpha){
+        if(alpha<=.01)return;
+        const drawW=pose.width;
+        const drawH=drawW*falconAspect;
+        const sourceW=image.naturalWidth,sourceH=image.naturalHeight;
+        const strips=28;
+        const flap=Math.sin(t*4.15)*drawH*.026;
+        ctx.save();
+        ctx.translate(pose.x,pose.y);
+        ctx.rotate(pose.angle);
+        ctx.scale(pose.horizontal,1);
+        ctx.globalAlpha=alpha*pose.opacity;
+        ctx.globalCompositeOperation='screen';
+        ctx.filter='saturate(1.22) brightness(1.2) contrast(1.08)';
+        ctx.shadowBlur=25;
+        ctx.shadowColor='rgba(34,132,255,.25)';
+        for(let i=0;i<strips;i++){
+          const sx=Math.floor(i*sourceW/strips);
+          const next=Math.floor((i+1)*sourceW/strips);
+          const sliceW=next-sx;
+          const nx=(i+.5)/strips;
+          const wingWeight=nx<.72?Math.sin((nx/.72)*Math.PI)*.9:.12;
+          const ripple=Math.sin(t*4.15+nx*4.4)*flap*wingWeight;
+          const dx=-drawW/2+sx/sourceW*drawW;
+          const dw=sliceW/sourceW*drawW+1.1;
+          ctx.drawImage(image,sx,0,sliceW,sourceH,dx,-drawH/2+ripple,dw,drawH);
+        }
+        ctx.restore();
       }
 
       function logoPoint(target){
@@ -301,63 +388,65 @@
       function paint(now){
         const t=Math.min((now-started)/1000,DURATION/1000);
         ctx.clearRect(0,0,w,h);
-        const divePose=birdPose(4.65);
-        const diving=t>3.5&&t<6.2;
+
         ambient.forEach(p=>{
-          const spread=diving?1+(t-3.5)*.13:1;
-          const ax=w/2+(p.x-w/2)*spread,ay=h/2+(p.y-h/2)*spread;
-          ctx.beginPath();ctx.arc(ax,ay,p.r,0,Math.PI*2);
-          ctx.fillStyle='rgba(105,169,220,'+(p.a*(diving?1.35:1))+')';ctx.fill();
+          ctx.beginPath();
+          ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle='rgba(118,172,220,'+p.a+')';
+          ctx.fill();
         });
 
-        const pose=birdPose(Math.min(t,4.65));
-        const cos=Math.cos(pose.angle),sin=Math.sin(pose.angle);
-        const settle=ease((t-4.65)/1.55);
-        if(t<6.2)intro.classList.remove('is-formed');
-        if(t>=6.15)intro.classList.add('is-formed');
+        const pose=birdPose(t);
+        const dissolve=ease((t-5.28)/1.5);
+        const fade=1-dissolve;
+        drawFlightWake(pose,t,fade);
+        drawFalcon(falconImage,pose,t,fade);
 
-        for(let i=0;i<particles.length;i++){
-          const p=particles[i];
-          let x,y,alpha=1,blend=0;
-          if(t<4.65){
-            const localX=p.x*pose.size*pose.horizontal;
-            const localY=p.y*pose.size;
-            const tx=pose.x+localX*cos-localY*sin;
-            const ty=pose.y+localX*sin+localY*cos;
-            x=tx+p.scatterX*(1-pose.formation);
-            y=ty+p.scatterY*(1-pose.formation);
-            alpha=pose.opacity;
-          }else{
-            const localX=p.x*divePose.size*divePose.horizontal;
-            const localY=p.y*divePose.size;
-            const fromX=divePose.x+localX*Math.cos(divePose.angle)-localY*Math.sin(divePose.angle);
-            const fromY=divePose.y+localX*Math.sin(divePose.angle)+localY*Math.cos(divePose.angle);
-            const to=logoPoint(logoTargets[i%logoTargets.length]);
-            x=mix(fromX,to.x,settle);
-            y=mix(fromY,to.y,settle);
-            alpha=mix(.82,1,settle);
-            blend=settle;
+        if(t>=5.28&&particles.length&&logoTargets.length){
+          const sourcePose=birdPose(5.28);
+          const settle=ease((t-5.28)/1.48);
+          for(let i=0;i<particles.length;i++){
+            const p=particles[i];
+            const fromX=sourcePose.x+p.x*sourcePose.width*sourcePose.horizontal;
+            const fromY=sourcePose.y+p.y*sourcePose.width;
+            const target=logoPoint(logoTargets[i%logoTargets.length]);
+            const x=mix(fromX,target.x,settle);
+            const y=mix(fromY,target.y,settle);
+            const dx=target.x-fromX,dy=target.y-fromY;
+            const curl=(p.seed-.5)*Math.min(90,Math.hypot(dx,dy)*.24)*(1-settle);
+            const cx=mix(fromX,target.x,.52)-dy*.08+curl;
+            const cy=mix(fromY,target.y,.52)+dx*.08-curl;
+            const alpha=clamp((.15+.85*settle)*p.a,0,.95);
+            const red=Math.round(mix(p.r,194,settle));
+            const green=Math.round(mix(p.g,224,settle));
+            const blue=255;
+            ctx.beginPath();
+            ctx.moveTo(fromX,fromY);
+            ctx.quadraticCurveTo(cx,cy,x,y);
+            ctx.strokeStyle='rgba('+red+','+green+','+blue+','+(alpha*.62)+')';
+            ctx.lineWidth=.55+settle*.55;
+            ctx.shadowBlur=settle*5;
+            ctx.shadowColor='rgba(75,174,255,.5)';
+            ctx.stroke();
+            if(i%5===0){
+              ctx.beginPath();
+              ctx.arc(x,y,.65+settle*.35,0,Math.PI*2);
+              ctx.fillStyle='rgba(207,236,255,'+(alpha*.8)+')';
+              ctx.fill();
+            }
           }
-          const rr=Math.round(mix(p.r,blend>.1&&i%7===0?222:35,blend));
-          const gg=Math.round(mix(p.g,blend>.1&&i%7===0?239:145,blend));
-          const bb=Math.round(mix(p.b,255,blend));
-          const radius=p.radius*(t>3.5&&t<4.65?1.35:1);
-          if(diving&&p.prevX!==undefined){
-            ctx.beginPath();ctx.moveTo(p.prevX,p.prevY);ctx.lineTo(x,y);
-            ctx.strokeStyle='rgba(73,167,255,.12)';ctx.lineWidth=.8;ctx.stroke();
-          }
-          p.prevX=x;p.prevY=y;
-          ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);
-          ctx.fillStyle='rgba('+rr+','+gg+','+bb+','+(alpha*p.a)+')';ctx.fill();
         }
+
+        if(t>=6.66)intro.classList.add('is-formed');
         if(t<DURATION/1000)raf=requestAnimationFrame(paint);
       }
 
       function startIntro(image){
         if(timer)clearTimeout(timer);
         resize();
+        falconImage=image;
         buildFalconParticles(image);
-        ambient=Array.from({length:w<700?75:145},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*.9+.25,a:Math.random()*.3+.06}));
+        ambient=Array.from({length:w<700?40:72},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*.75+.2,a:Math.random()*.17+.025}));
         started=performance.now();
         timer=setTimeout(closeIntro,DURATION);
         raf=requestAnimationFrame(paint);
