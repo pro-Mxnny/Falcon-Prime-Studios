@@ -335,10 +335,11 @@
 
   
     /* Prime Ignition v2 — a longer, dark-room reveal built around the new falcon crest. */
-    .intro.ignition{background:#010204;color:#f2f0e9;z-index:1000;overflow:hidden;isolation:isolate}
-    .intro.ignition:before{display:block;content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 42% 30% at 50% 47%,rgba(34,43,59,.16),transparent 72%),radial-gradient(ellipse 100% 100% at 50% 50%,transparent 36%,rgba(0,0,0,.88) 100%),#010204;opacity:1}
-    .intro.ignition:after{display:block;content:"";position:absolute;inset:0;z-index:6;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.28),transparent 18%,transparent 82%,rgba(0,0,0,.34)),linear-gradient(0deg,rgba(0,0,0,.55),transparent 25%,transparent 76%,rgba(0,0,0,.5))}
-    .ignition-panel{z-index:1;background:transparent;border:0!important;box-shadow:none!important;pointer-events:none}
+    .intro.ignition{background:transparent;color:#f2f0e9;z-index:1000;overflow:hidden;isolation:isolate}
+    .intro.ignition:before{display:none}
+    .intro.ignition:after{display:block;content:"";position:absolute;inset:0;z-index:6;pointer-events:none;opacity:1;background:linear-gradient(90deg,rgba(0,0,0,.28),transparent 18%,transparent 82%,rgba(0,0,0,.34)),linear-gradient(0deg,rgba(0,0,0,.55),transparent 25%,transparent 76%,rgba(0,0,0,.5));transition:opacity .9s ease}
+    .ignition-panel{z-index:1;background:linear-gradient(135deg,#080b10 0%,#010204 62%,#0a0e14 100%);border:0!important;box-shadow:none!important;pointer-events:none}
+    .ignition-panel-right{background:linear-gradient(225deg,#080b10 0%,#010204 62%,#0a0e14 100%)}
     .ignition-panel:after{opacity:.055;background-image:linear-gradient(rgba(213,220,229,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(213,220,229,.12) 1px,transparent 1px);background-size:96px 96px}
     .ignition-haze{z-index:2;inset:-10%;opacity:0;transform:scale(.72);background:radial-gradient(ellipse 26% 20% at 50% 44%,rgba(190,205,226,.16),transparent 75%),radial-gradient(ellipse 55% 38% at 50% 48%,rgba(49,95,234,.08),transparent 78%);filter:blur(18px);transition:opacity 2s ease,transform 4s cubic-bezier(.2,.7,.2,1)}
     .intro.is-ready .ignition-haze{opacity:1;transform:scale(1.18)}
@@ -393,7 +394,8 @@
     .ignition-panel-left,.ignition-panel-right{transition:transform 1.65s cubic-bezier(.76,0,.24,1)}
     .intro.is-releasing .ignition-core{opacity:0;transform:translate(-50%,-55%) scale(.94);filter:blur(5px)}
     .intro.is-releasing .ignition-topline,.intro.is-releasing .ignition-footer{opacity:0;transition:opacity .5s ease}
-    .intro.is-releasing .ignition-haze,.intro.is-releasing .ignition-spotlight,.intro.is-releasing .ignition-cone,.intro.is-releasing .ignition-floor{opacity:0;transition:opacity .8s ease}
+    .intro.is-releasing .ignition-haze,.intro.is-releasing .ignition-spotlight,.intro.is-releasing .ignition-cone,.intro.is-releasing .ignition-sweep,.intro.is-releasing .ignition-floor,.intro.is-releasing .ignition-grain{opacity:0;transition:opacity .8s ease}
+    .intro.is-releasing:after{opacity:0}
     @keyframes ignitionSpotlight{0%{opacity:0;transform:scale(.72)}55%{opacity:.9}100%{opacity:.72;transform:scale(1.18)}}
     @keyframes ignitionCone{0%{opacity:0;transform:translateX(-50%) scaleY(.68)}35%{opacity:.78}100%{opacity:.36;transform:translateX(-50%) scaleY(1)}}
     @keyframes ignitionSweep{0%{left:-35%;opacity:0;transform:rotate(-8deg) scaleX(.25)}16%{opacity:1}76%{opacity:.9}100%{left:115%;opacity:0;transform:rotate(-8deg) scaleX(1)}}
