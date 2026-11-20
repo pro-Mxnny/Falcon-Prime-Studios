@@ -204,7 +204,7 @@
       const skip=document.getElementById('skipIntro');
       const replay=document.getElementById('replayIntro');
       const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const seen=sessionStorage.getItem('fp-intro-seen')==='1';
+      const seen=sessionStorage.getItem('fp-particle-intro-seen')==='1';
       const canvas=document.getElementById('introParticles');
       const ctx=canvas.getContext('2d',{alpha:true});
       const DURATION=9000;
@@ -218,7 +218,7 @@
         if(!intro||intro.classList.contains('is-hidden'))return;
         intro.classList.add('is-hidden');
         document.body.classList.remove('intro-lock');
-        sessionStorage.setItem('fp-intro-seen','1');
+        sessionStorage.setItem('fp-particle-intro-seen','1');
         if(timer)clearTimeout(timer);
         if(raf)cancelAnimationFrame(raf);
       }
@@ -376,7 +376,7 @@
       }
       skip.addEventListener('click',closeIntro);
       replay.addEventListener('click',()=>{
-        sessionStorage.removeItem('fp-intro-seen');
+        sessionStorage.removeItem('fp-particle-intro-seen');sessionStorage.removeItem('fp-intro-seen');
         window.scrollTo({top:0,behavior:reduced?'auto':'smooth'});
         window.setTimeout(()=>window.location.reload(),reduced?0:450);
       });
